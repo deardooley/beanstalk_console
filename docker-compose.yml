@@ -24,9 +24,10 @@ web:
   environment:
     - "BEANSTALKD_HOST=beanstalkd"
     - "BEANSTALKD_PORT=11300"
+    - "DOCUMENT_ROOT=/var/www/public"
   links:
     - beanstalkd
-    
+
 beanstalkd:
   image: agaveapi/beanstalkd
   ports:
