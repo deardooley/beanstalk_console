@@ -1,22 +1,18 @@
-FROM php:5.6-apache
+FROM deardooley/php:5.6-composer
 MAINTAINER Rion Dooley <dooley@tacc.utexas.edu>
 
 # Add project from current repo to enable automated build
-ADD . /var/www
-
-# Add custom default apache virutal host with combined error and access
-# logging to stdout
-ADD docker/apache_default /etc/apache2/apache2.conf
-ADD docker/php.ini /usr/local/lib/php.ini
+COPY . /var/www
 
 # Add custom entrypoint to inject runtime environment variables into
 # beanstalk console config
-ADD docker/run.sh /usr/local/bin/run
+COPY docker/run.sh /usr/local/bin/run
 
-# Change ownership for apache happiness & install Composer
-RUN chmod +x /usr/local/bin/run && \
-    chown -R www-data:www-data /var/www && \
-    a2enmod rewrite
+RUN apk --update add php-ctype && \
+    rm /var/cache/apk/* && \
+    chown -R apache /var/www
+
+ENV DOCUMENT_ROOT /var/www/public
 
 WORKDIR /var/www
 

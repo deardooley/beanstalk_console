@@ -2,9 +2,9 @@
 set -e
 
 PHP_ERROR_REPORTING=${PHP_ERROR_REPORTING:-"E_ALL & ~E_DEPRECATED & ~E_NOTICE"}
-sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /usr/local/lib/php.ini
-sed -ri "s/^error_reporting\s*=.*$//g" /usr/local/lib/php.ini
-echo "error_reporting = $PHP_ERROR_REPORTING" >> /usr/local/lib/php.ini
+echo -e "display_errors = On\n" >> $DOCUMENT_ROOT/php.ini
+echo -e "error_reporting=all\n" >> $DOCUMENT_ROOT/php.ini
+echo -e "error_reporting = $PHP_ERROR_REPORTING\n" >> $DOCUMENT_ROOT/php.ini
 
 if [[ -n "$BEANSTALKD_HOST" ]]; then
 
@@ -30,4 +30,4 @@ elif [[ -n "$BEANSTALKD_PORT_11300_TCP_ADDR" ]]; then
 
 fi
 
-source /etc/apache2/envvars && exec /usr/sbin/apache2 -DFOREGROUND
+apachectl -D FOREGROUND

@@ -26,11 +26,11 @@ web:
     - "BEANSTALKD_PORT=11300"
   links:
     - beanstalkd
+    
 beanstalkd:
   image: agaveapi/beanstalkd
   ports:
     - "11300:11300"
-
 #  volumes_from:
 #    - data
 #data:
